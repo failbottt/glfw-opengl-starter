@@ -47,7 +47,7 @@ typedef struct Character{
 } Character;
 
 typedef struct UI_Button {
-	U8  state;
+	U8  state; // 1 normal // 2 focused
 	F32 width;
 	F32 height;
 	F32 x;

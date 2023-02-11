@@ -1,8 +1,9 @@
-#define NUM_GLYPHS 128
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
-U64 cell_size = 16;
-U64 font_atlas_width = 416;
-U64 font_atlas_height = 64;
+#define NUM_GLYPHS 128
+U64 font_atlas_width;
+U64 font_atlas_height;
 GLuint texture_atlas_id;
 Character c[128];
 U64 w = 0;
@@ -10,6 +11,9 @@ U64 h = 0;
 
 void initFont()
 {
+	font_atlas_width  = FONT_SIZE * 26; // 26 * FONT_SIZE
+	font_atlas_height = FONT_SIZE * 4; // 4 * FONT_SIZE
+
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 	{
@@ -24,7 +28,7 @@ void initFont()
 		return -1;
 	}
 
-	FT_Set_Pixel_Sizes(face, 20, 20);
+	FT_Set_Pixel_Sizes(face, FONT_SIZE, FONT_SIZE);
 	FT_GlyphSlot g = face->glyph;
 
 	U64 rowh = 0;
@@ -56,7 +60,7 @@ void initFont()
 			return -1;
 		}
 
-		if (ox + g->bitmap.width + 1 >= w) {
+		if (ox + g->bitmap.width > w) {
 			tyidx++;
 			txidx = 0;
 			oy += rowh;
@@ -89,10 +93,10 @@ void initFont()
 		c[i].tx = ox / (F32)w;
 		c[i].ty = oy / (F32)h;
 
-		F32 row_height = cell_size - MAX(rowh, g->bitmap.rows);
+		F32 row_height = FONT_SIZE - MAX(rowh, g->bitmap.rows);
 		rowh = MAX(rowh, g->bitmap.rows) + row_height;
 
-		F32 col_width = cell_size - g->bitmap.width;
+		F32 col_width = FONT_SIZE - g->bitmap.width;
 		ox += g->bitmap.width + col_width;
 	}
 

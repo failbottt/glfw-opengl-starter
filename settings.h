@@ -1,7 +1,10 @@
-#define LETTER_SPACING 12.75f
+#define LETTER_SPACING 16.75f
 #define LINE_SPACING 32 
 #define LEFT_PADDING 18
 #define TOP_PADDING 32
+#define SCALE 1.0f
 
 #define SCREEN_WIDTH  1980 
 #define SCREEN_HEIGHT  786
+
+U64 FONT_SIZE = 18;
